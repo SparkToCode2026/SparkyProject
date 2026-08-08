@@ -4,5 +4,5 @@ namespace SparkyProject.API.Models;
 // TODO: add properties (PK, FKs, navigation properties) per the team ERD.
 public class GuestProfile
 {
-    public int Id { get; set; }
+    public int GuestProfileId { get; set; }
 }
