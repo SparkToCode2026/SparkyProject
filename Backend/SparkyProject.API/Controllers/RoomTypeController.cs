@@ -77,4 +77,22 @@ public class RoomTypeController : ControllerBase
         roomType.HotelId = newHotelID;
         context.SaveChanges();
     }
+
+
+
+    /////////////////// Case 4: DELETE Remove Room Type ///////////////////
+    public void RemoveRoomType(int id)
+    {
+        RoomType roomType = context.RoomTypes.FirstOrDefault(rt => rt.RoomTypeId == id);
+
+        if (roomType == null)
+        {
+
+        }
+        else
+        {
+            context.RoomTypes.Remove(roomType);
+            context.SaveChanges();
+        }
+    }
 }
