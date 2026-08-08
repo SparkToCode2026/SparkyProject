@@ -54,4 +54,27 @@ public class RoomTypeController : ControllerBase
             context.SaveChanges();
         }
     }
+
+
+
+    /////////////////// Case 3: PUT/PATCH Update Hotel ID for Room Type ///////////////////
+    public void UpdateHotelIdForRoomType(int id, int hotelID, int newHotelID)
+    {
+        RoomType roomType = context.RoomTypes.FirstOrDefault(rt => rt.RoomTypeId == id);
+
+        if (roomType == null)
+        {
+
+        }
+
+        Hotel hotel = context.Hotels.FirstOrDefault(h => h.HotelId == hotelID);
+
+        if (hotel == null)
+        {
+
+        }
+
+        roomType.HotelId = newHotelID;
+        context.SaveChanges();
+    }
 }
