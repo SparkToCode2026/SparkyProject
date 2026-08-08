@@ -37,5 +37,21 @@ public class RoomTypeController : ControllerBase
 
 
 
+    /////////////////// Case 2: PUT/PATCH Update Room Type ///////////////////
+    public void UpdateRoomType(int id, RoomType updatedRoomType)
+    {
+        RoomType roomType = context.RoomTypes.FirstOrDefault(rt => rt.RoomTypeId == id);
 
+        if (roomType == null)
+        {
+
+        }
+        else
+        {
+            roomType.RoomName = updatedRoomType.RoomName;
+            roomType.BasePrice = updatedRoomType.BasePrice;
+            roomType.Capacity = updatedRoomType.Capacity;
+            context.SaveChanges();
+        }
+    }
 }
