@@ -18,11 +18,11 @@ namespace SparkyProject.API.Controllers;
 [Route("api/[controller]")]
 public class PromotionController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext context;
 
-    public PromotionController(AppDbContext context)
+    public PromotionController(AppDbContext _context)
     {
-        _context = context;
+        context = _context;
     }
 
     // TODO: implement the 8 cases above

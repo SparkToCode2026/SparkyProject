@@ -18,11 +18,11 @@ namespace SparkyProject.API.Controllers;
 [Route("api/[controller]")]
 public class RoomTypeController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext context;
 
-    public RoomTypeController(AppDbContext context)
+    public RoomTypeController(AppDbContext _context)
     {
-        _context = context;
+        context = _context;
     }
 
     // TODO: implement the 8 cases above

@@ -17,11 +17,11 @@ namespace SparkyProject.API.Controllers;
 [Route("api/[controller]")]
 public class InvoiceController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext context;
 
-    public InvoiceController(AppDbContext context)
+    public InvoiceController(AppDbContext _context)
     {
-        _context = context;
+        context = _context;
     }
 
     // TODO: implement the 8 cases above

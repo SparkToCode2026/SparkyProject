@@ -18,11 +18,11 @@ namespace SparkyProject.API.Controllers;
 [Route("api/[controller]")]
 public class AmenityController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext context;
 
-    public AmenityController(AppDbContext context)
+    public AmenityController(AppDbContext _context)
     {
-        _context = context;
+        context = _context;
     }
 
     // TODO: implement the 8 cases above
