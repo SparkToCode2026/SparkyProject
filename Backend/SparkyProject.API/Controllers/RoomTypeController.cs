@@ -122,4 +122,15 @@ public class RoomTypeController : ControllerBase
 
         return roomType;
     }
+
+
+
+    /////////////////// Case 7: GET Find Room Types by Capacity ///////////////////
+    public List<RoomType> GetRoomTypesByCapacity(int minCapacity)
+    {
+        List<RoomType> roomTypes = context.RoomTypes.Where(rt => rt.Capacity >= minCapacity)
+                                                    .ToList();
+
+        return roomTypes;
+    }
 }

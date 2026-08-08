@@ -11,7 +11,7 @@ public class RoomType
     public int RoomTypeId { get; set; }
     public string RoomName { get; set; }
     public double BasePrice { get; set; }
-    public string Capacity { get; set; }
+    public int Capacity { get; set; }
 
 
     // Foreign key to Hotel 1 : N relationship
