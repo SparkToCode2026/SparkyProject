@@ -100,11 +100,26 @@ public class RoomTypeController : ControllerBase
 
 
     /////////////////// Case 5: GET List Room Types with Hotel Information ///////////////////
-    public List<RoomType> GetRoomTypes()
+    public List<RoomType> GetAllRoomTypes()
     {
         List<RoomType> roomTypes = context.RoomTypes
                                           .Include(rt => rt._hotel)
                                           .ToList();
         return roomTypes;
+    }
+
+
+
+    /////////////////// Case 6: GET Find Room Type by ID ///////////////////
+    public RoomType GetRoomType(int id)
+    {
+        RoomType roomType = context.RoomTypes.FirstOrDefault(rt => rt.RoomTypeId == id);
+
+        if (roomType == null)
+        {
+
+        }
+
+        return roomType;
     }
 }
