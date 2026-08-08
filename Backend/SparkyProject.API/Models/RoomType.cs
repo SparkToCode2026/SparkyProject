@@ -4,5 +4,11 @@ namespace SparkyProject.API.Models;
 // TODO: add properties (PK, FKs, navigation properties) per the team ERD.
 public class RoomType
 {
-    public int Id { get; set; }
+    public int RoomTypeId { get; set; }
+    public string RoomName { get; set; }
+    public double BasePrice { get; set; }
+    public string Capacity { get; set; }
+
+
+
 }
