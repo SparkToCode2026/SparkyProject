@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
 using SparkyProject.API.Models;
 
@@ -94,5 +95,16 @@ public class RoomTypeController : ControllerBase
             context.RoomTypes.Remove(roomType);
             context.SaveChanges();
         }
+    }
+
+
+
+    /////////////////// Case 5: GET List Room Types with Hotel Information ///////////////////
+    public List<RoomType> GetRoomTypes()
+    {
+        List<RoomType> roomTypes = context.RoomTypes
+                                          .Include(rt => rt._hotel)
+                                          .ToList();
+        return roomTypes;
     }
 }
