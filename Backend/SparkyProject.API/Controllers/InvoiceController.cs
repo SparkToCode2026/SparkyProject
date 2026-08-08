@@ -3,7 +3,7 @@ using SparkyProject.API.Data;
 
 namespace SparkyProject.API.Controllers;
 
-// Owner: Murooj Al Shehaibi
+// Owner: Aisha Mubarak ALHashmi
 // Required cases (min. 8) — see capstone brief p.11-12:
 // 1. POST   Create
 // 2. PUT/PATCH  Update

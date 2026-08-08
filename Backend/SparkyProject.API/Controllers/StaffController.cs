@@ -13,6 +13,7 @@ namespace SparkyProject.API.Controllers;
 // 6. GET (find)   By Id
 // 7. GET (filter) LINQ Where() on a meaningful field
 // 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
+
 [ApiController]
 [Route("api/[controller]")]
 public class StaffController : ControllerBase
