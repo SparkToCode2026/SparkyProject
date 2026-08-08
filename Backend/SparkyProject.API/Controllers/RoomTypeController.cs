@@ -133,4 +133,15 @@ public class RoomTypeController : ControllerBase
 
         return roomTypes;
     }
+
+
+
+    /////////////////// Case 8: GET Find Room Types sorted by Price ///////////////////
+    public List<RoomType> GetRoomTypesSortedByPrice()
+    {
+        List<RoomType> roomTypes = context.RoomTypes.OrderBy(rt => rt.BasePrice)
+                                                    .ToList();
+
+        return roomTypes;
+    }
 }
