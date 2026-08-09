@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
 using SparkyProject.API.Models;
 
@@ -95,5 +96,17 @@ public class PromotionController : ControllerBase
             context.Promotions.Remove(promotion);
             context.SaveChanges();
         }
+    }
+
+
+
+    /////////////////// Case 5: GET List Promotions with Hotel Information ///////////////////
+    public List<Promotion> GetAllPromotions()
+    {
+        List<Promotion> promotions = context.Promotions
+                                            .Include(r => r._Hotels)
+                                            .ToList();
+
+        return promotions;
     }
 }
