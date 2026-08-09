@@ -56,6 +56,7 @@ public class RoomTypeController : ControllerBase
             roomType.RoomName = updatedRoomType.RoomName;
             roomType.BasePrice = updatedRoomType.BasePrice;
             roomType.Capacity = updatedRoomType.Capacity;
+            roomType.HotelId = updatedRoomType.HotelId;
             context.SaveChanges();
 
             return Ok("Room type updated successfully");
