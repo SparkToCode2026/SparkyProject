@@ -121,6 +121,17 @@ public class GuestProfileController : ControllerBase
         }
     }
 
+    //Case 7: GET Filter GuestProfiles by Address
+    [HttpGet("GetGuestProfilesByAddress")]
+    public IActionResult GetGuestProfilesByAddress(string address)
+    {
+        List<GuestProfile> guestProfiles = context.GuestProfiles
+                                                  .Include(gp => gp._user)
+                                                  .Where(gp => gp.GuestAddress == address)
+                                                  .ToList();
+        return Ok(guestProfiles);
+    }
+
 
 
 
