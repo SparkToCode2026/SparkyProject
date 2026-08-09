@@ -25,6 +25,7 @@ public class RoomType
     // Foreign key to Hotel 1 : N relationship
     [ForeignKey("_hotel")]
     public int HotelId { get; set; }
+
     [JsonIgnore]
     public Hotel _hotel { get; set; }
 
