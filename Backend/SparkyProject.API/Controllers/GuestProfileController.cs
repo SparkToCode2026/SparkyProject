@@ -38,5 +38,25 @@ public class GuestProfileController : ControllerBase
         return Ok("Guest profile created successfully.");
     }
 
+    //Case 2: PUT/PATCH Update GuestProfile
+    [HttpPut("UpdateGuestProfile")]
+    public IActionResult UpdateGuestProfile(int id, GuestProfile updatedGuestProfile)
+    {
+        GuestProfile guestProfile = context.GuestProfiles.FirstOrDefault(gp => gp.GuestProfileId == id);
+        if (guestProfile == null)
+        {
+            return NotFound("Guest profile not found");
+        }
+        else
+        {
+            guestProfile.GustPhone = updatedGuestProfile.GustPhone;
+            guestProfile.GuestAddress = updatedGuestProfile.GuestAddress;
+            guestProfile.DateOfBirth = updatedGuestProfile.DateOfBirth;
+            context.SaveChanges();
+
+            return Ok("Guest profile updated successfully");
+        }
+    }
+
 
 }
