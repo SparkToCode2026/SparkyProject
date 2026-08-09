@@ -28,5 +28,120 @@ public class GuestProfileController : ControllerBase
         context = _context;
     }
 
-    // TODO: implement the 8 cases above
+    //Case 1: POST Create GuestProfile
+    [HttpPost("CreateGuestProfile")]
+    public IActionResult CreateGuestProfile(GuestProfile guestProfile)
+    {
+        context.GuestProfiles.Add(guestProfile);
+        context.SaveChanges();
+
+        return Ok("Guest profile created successfully.");
+    }
+
+    //Case 2: PUT/PATCH Update GuestProfile
+    [HttpPut("UpdateGuestProfile")]
+    public IActionResult UpdateGuestProfile(int id, GuestProfile updatedGuestProfile)
+    {
+        GuestProfile guestProfile = context.GuestProfiles.FirstOrDefault(gp => gp.GuestProfileId == id);
+        if (guestProfile == null)
+        {
+            return NotFound("Guest profile not found");
+        }
+        else
+        {
+            guestProfile.GustPhone = updatedGuestProfile.GustPhone;
+            guestProfile.GuestAddress = updatedGuestProfile.GuestAddress;
+            guestProfile.DateOfBirth = updatedGuestProfile.DateOfBirth;
+            context.SaveChanges();
+
+            return Ok("Guest profile updated successfully");
+        }
+    }
+
+    //Case 3: PUT/PATCH Update GuestProfile via related FK (UserId)
+    [HttpPatch("UpdateAddressForProfile")]
+    public IActionResult UpdateAddressForProfile(int id, string newAddress)
+    {
+        GuestProfile guestProfile = context.GuestProfiles.FirstOrDefault(gp => gp.GuestProfileId == id);
+        if (guestProfile == null)
+        {
+            return NotFound("Guest profile not found");
+        }
+        else
+        {
+            guestProfile.GuestAddress = newAddress;
+            context.SaveChanges();
+
+            return Ok("Guest profile address updated successfully to " + newAddress);
+        }
+    }
+
+    //Case 4: DELETE GuestProfile
+    [HttpDelete("DeleteGuestProfile")]
+    public IActionResult DeleteGuestProfile(int id)
+    {
+        GuestProfile guestProfile = context.GuestProfiles.FirstOrDefault(gp => gp.GuestProfileId == id);
+        if (guestProfile == null)
+        {
+            return NotFound("Guest profile not found");
+        }
+        else
+        {
+            context.GuestProfiles.Remove(guestProfile);
+            context.SaveChanges();
+
+            return Ok("Guest profile deleted successfully");
+        }
+    }
+
+    //Case 5: GET List Guest Profiles with User Information
+    [HttpGet("GetAllGuestProfiles")]
+    public IActionResult GetAllGuestProfiles()
+    {
+        List<GuestProfile> guestProfiles = context.GuestProfiles
+                                                  .Include(gp => gp._user)
+                                                  .ToList();
+        return Ok(guestProfiles);
+    }
+
+    //Case 6: GET GuestProfile By Id
+    [HttpGet("GetGuestProfileById")]
+    public IActionResult GetGuestProfileById(int id)
+    {
+        GuestProfile guestProfile = context.GuestProfiles
+                                           .Include(gp => gp._user)
+                                           .FirstOrDefault(gp => gp.GuestProfileId == id);
+        if (guestProfile == null)
+        {
+            return NotFound("Guest profile not found");
+        }
+        else
+        {
+            return Ok(guestProfile);
+        }
+    }
+
+    //Case 7: GET Filter GuestProfiles by Address
+    [HttpGet("GetGuestProfilesByAddress")]
+    public IActionResult GetGuestProfilesByAddress(string address)
+    {
+        List<GuestProfile> guestProfiles = context.GuestProfiles
+                                                  .Include(gp => gp._user)
+                                                  .Where(gp => gp.GuestAddress == address)
+                                                  .ToList();
+        return Ok(guestProfiles);
+    }
+
+    //Case 8: GET Sort GuestProfiles by DateOfBirth
+    [HttpGet("GetGuestProfilesByDateOfBirth")]
+    public IActionResult GetGuestProfilesByDateOfBirth()
+    {
+        List<GuestProfile> guestProfiles = context.GuestProfiles
+                                                  .Include(gp => gp._user)
+                                                  .OrderBy(gp => gp.DateOfBirth)
+                                                  .ToList();
+        return Ok(guestProfiles);
+    }
+
+
 }

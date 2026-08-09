@@ -130,9 +130,11 @@ public class UserController : ControllerBase
     public IActionResult GetUsersByRole(string role)
     {
         List<User> users = context.Users
-                                   .Include(u => u._GuestProfile)
-                                   .Where(u => u.Role == role)
-                                   .ToList();
+                               .Include(u => u._GuestProfile)
+                               .Where(u => u.Role == role)
+                               .ToList();
 
-    // TODO: implement the 8 cases above
+        if (users == null || users.Count == 0) return NotFound("No users found for role: " + role);
+        return Ok(users);
+    }
 }
