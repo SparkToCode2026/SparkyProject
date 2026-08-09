@@ -94,5 +94,15 @@ public class GuestProfileController : ControllerBase
         }
     }
 
+    //Case 5: GET List Guest Profiles with User Information
+    [HttpGet("GetAllGuestProfiles")]
+    public IActionResult GetAllGuestProfiles()
+    {
+        List<GuestProfile> guestProfiles = context.GuestProfiles
+                                                  .Include(gp => gp._user)
+                                                  .ToList();
+        return Ok(guestProfiles);
+    }
+
 
 }
