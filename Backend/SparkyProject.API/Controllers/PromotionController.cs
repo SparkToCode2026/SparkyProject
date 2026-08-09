@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SparkyProject.API.Data;
+using SparkyProject.API.Models;
 
 namespace SparkyProject.API.Controllers;
 
@@ -25,5 +26,16 @@ public class PromotionController : ControllerBase
         context = _context;
     }
 
-    // TODO: implement the 8 cases above
+
+
+    /////////////////// Case 1: POST Create Promotion ///////////////////
+    public void CreatePromotion(Promotion promotion)
+    {
+        context.Promotions.Add(promotion);
+        context.SaveChanges();
+    }
+
+
+
+
 }
