@@ -58,8 +58,26 @@ public class UserController : ControllerBase
 
             return Ok("User updated successfully");
         }
-
-
     }
+
+    // Case 3: PUT/PATCH Second distinct update (status change / update via related FK)
+    [HttpPatch("UpdateUserRole")]
+    public IActionResult UpdateUserRole(int id, string newRole)
+    {
+        User user = context.Users.FirstOrDefault(u => u.UserId == id);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+        else
+        {
+            user.Role = newRole;
+            context.SaveChanges();
+
+            return Ok("User role updated successfully to " + newRole);
+
+        }
+    }
+
 
 }
