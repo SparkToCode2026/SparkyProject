@@ -78,4 +78,22 @@ public class PromotionController : ControllerBase
         promotion.HotelId = newHotelId;
         context.SaveChanges();
     }
+
+
+
+    /////////////////// Case 4: DELETE Remove Promotion ///////////////////
+    public void RemovePromotion(int id)
+    {
+        Promotion promotion = context.Promotions.FirstOrDefault(p => p.PromotionId == id);
+
+        if (promotion == null)
+        {
+
+        }
+        else
+        {
+            context.Promotions.Remove(promotion);
+            context.SaveChanges();
+        }
+    }
 }
