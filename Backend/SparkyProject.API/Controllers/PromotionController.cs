@@ -37,5 +37,22 @@ public class PromotionController : ControllerBase
 
 
 
+    /////////////////// Case 2: PUT/PATCH Update Promotion ///////////////////
+    public void UpdatePromotion(int id, Promotion updatedPromotion)
+    {
+        Promotion promotion = context.Promotions.FirstOrDefault(p => p.PromotionId == id);
 
+        if (promotion == null)
+        {
+
+        }
+        else
+        {
+            promotion.PromotionCode = updatedPromotion.PromotionCode;
+            promotion.DiscountPercentage = updatedPromotion.DiscountPercentage;
+            promotion.ExpiryDate = updatedPromotion.ExpiryDate;
+            promotion.HotelId = updatedPromotion.HotelId;
+            context.SaveChanges();
+        }
+    }
 }
