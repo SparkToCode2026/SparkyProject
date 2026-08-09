@@ -134,18 +134,5 @@ public class UserController : ControllerBase
                                    .Where(u => u.Role == role)
                                    .ToList();
 
-        return Ok(users);
-    }
-
-    // Case 8: GET Sort Users by Name
-    [HttpGet("GetUsersSortedByName")]
-    public IActionResult GetUsersSortedByName()
-    {
-        List<User> users = context.Users
-                                   .Include(u => u._GuestProfile)
-                                   .OrderBy(u => u.UserName)
-                                   .ToList();
-        return Ok(users);
-    }
-
+    // TODO: implement the 8 cases above
 }
