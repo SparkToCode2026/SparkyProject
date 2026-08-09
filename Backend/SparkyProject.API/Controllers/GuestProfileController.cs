@@ -104,5 +104,24 @@ public class GuestProfileController : ControllerBase
         return Ok(guestProfiles);
     }
 
+    //Case 6: GET GuestProfile By Id
+    [HttpGet("GetGuestProfileById")]
+    public IActionResult GetGuestProfileById(int id)
+    {
+        GuestProfile guestProfile = context.GuestProfiles
+                                           .Include(gp => gp._user)
+                                           .FirstOrDefault(gp => gp.GuestProfileId == id);
+        if (guestProfile == null)
+        {
+            return NotFound("Guest profile not found");
+        }
+        else
+        {
+            return Ok(guestProfile);
+        }
+    }
+
+
+
 
 }
