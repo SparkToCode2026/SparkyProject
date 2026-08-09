@@ -55,4 +55,27 @@ public class PromotionController : ControllerBase
             context.SaveChanges();
         }
     }
+
+
+
+    /////////////////// Case 3: PUT/PATCH Update Hotel ID for Promotion ///////////////////
+    public void UpdatePromotionHotel(int id, int hotelId, int newHotelId)
+    {
+        Promotion promotion = context.Promotions.FirstOrDefault(p => p.PromotionId == id);
+
+        if (promotion == null)
+        {
+
+        }
+
+        Hotel hotel = context.Hotels.FirstOrDefault(h => h.HotelId == hotelId);
+
+        if (hotel == null)
+        {
+
+        }
+
+        promotion.HotelId = newHotelId;
+        context.SaveChanges();
+    }
 }
