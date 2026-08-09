@@ -29,13 +29,37 @@ public class UserController : ControllerBase
 
     // Case 1: POST Create
     [HttpPost("CreateUser")]
-    public IActionResult CreateUser([FromBody] User user)
+    public IActionResult CreateUser(User user)
     {
-        if (user == null) return BadRequest();
         context.Users.Add(user);
         context.SaveChanges();
 
         return Ok("User created successfully.");
+    }
+
+    // Case 2: PUT Update
+    [HttpPut("UpdateUser")]
+    public IActionResult UpdateUser(int id, User updatedUser)
+    {
+        User user = context.Users.FirstOrDefault(u => u.UserId == id);
+
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+        else
+        {
+
+            user.UserName = updatedUser.UserName;
+            user.UserEmail = updatedUser.UserEmail;
+            user.PasswordHash = updatedUser.PasswordHash;
+            user.Role = updatedUser.Role;
+            context.SaveChanges();
+
+            return Ok("User updated successfully");
+        }
+
+
     }
 
 }
