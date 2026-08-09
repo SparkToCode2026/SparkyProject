@@ -3,9 +3,6 @@ using SparkyProject.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 // Services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
