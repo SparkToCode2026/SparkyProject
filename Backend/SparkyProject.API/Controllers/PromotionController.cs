@@ -109,4 +109,19 @@ public class PromotionController : ControllerBase
 
         return promotions;
     }
+
+
+
+    /////////////////// Case 6: GET Find Promotion By Id ///////////////////
+    public Promotion GetPromotion(int id)
+    {
+        Promotion promotion = context.Promotions.FirstOrDefault(p => p.PromotionId == id);
+
+        if (promotion == null)
+        {
+
+        }
+
+        return promotion;
+    }
 }
