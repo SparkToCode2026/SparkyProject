@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
+using SparkyProject.API.Models;
 
 namespace SparkyProject.API.Controllers;
 
@@ -25,5 +27,95 @@ public class AmenityController : ControllerBase
         context = _context;
     }
 
-    // TODO: implement the 8 cases above
+    // 1. POST - create
+    [HttpPost]
+    public async Task<ActionResult<Amenity>> CreateAmenity(Amenity amenity)
+    {
+        context.Amenities.Add(amenity);
+        await context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetAmenity), new { id = amenity.Id }, amenity);
+    }
+
+    // 2. PUT - full update
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateAmenity(int id, Amenity updated)
+    {
+        var amenity = await context.Amenities.FindAsync(id);
+        if (amenity == null) return NotFound();
+
+        amenity.Name = updated.Name;
+        amenity.Price = updated.Price;
+        amenity.HotelId = updated.HotelId;
+
+        await context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    // 3. PATCH - second distinct update (price only)
+    [HttpPatch("{id}/price")]
+    public async Task<IActionResult> UpdatePrice(int id, decimal newPrice)
+    {
+        var amenity = await context.Amenities.FindAsync(id);
+        if (amenity == null) return NotFound();
+
+        amenity.Price = newPrice;
+        await context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    // 4. DELETE
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAmenity(int id)
+    {
+        var amenity = await context.Amenities.FindAsync(id);
+        if (amenity == null) return NotFound();
+
+        context.Amenities.Remove(amenity);
+        await context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    // 5. GET (list) - includes related Hotel
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Amenity>>> GetAllAmenities()
+    {
+        return await context.Amenities.Include(a => a.Hotel).ToListAsync();
+    }
+
+    // 6. GET (find) - by Id
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Amenity>> GetAmenity(int id)
+    {
+        var amenity = await context.Amenities
+            .Include(a => a.Hotel)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (amenity == null) return NotFound();
+        return amenity;
+    }
+
+    // 7. GET (filter) - by hotel
+    [HttpGet("by-hotel/{hotelId}")]
+    public async Task<ActionResult<IEnumerable<Amenity>>> GetByHotel(int hotelId)
+    {
+        return await context.Amenities
+            .Where(a => a.HotelId == hotelId)
+            .ToListAsync();
+    }
+
+    // 8. GET (sort/aggregate) - sorted by price
+    [HttpGet("sorted-by-price")]
+    public async Task<ActionResult<IEnumerable<Amenity>>> GetSortedByPrice()
+    {
+        return await context.Amenities
+            .OrderBy(a => a.Price)
+            .ToListAsync();
+    }
+
+    [HttpGet("average-price")]
+    public async Task<ActionResult<decimal>> GetAveragePrice()
+    {
+        if (!await context.Amenities.AnyAsync()) return 0;
+        return await context.Amenities.AverageAsync(a => a.Price);
+    }
 }
