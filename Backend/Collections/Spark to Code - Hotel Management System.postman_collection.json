@@ -1,0 +1,524 @@
+{
+  "info": {
+    "_postman_id": "05ca3df6-b64c-4fe4-bee2-88a9e7847371",
+    "name": "Spark to Code - Hotel Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57243699"
+  },
+  "item": [
+    {
+      "name": "RoomType",
+      "item": [
+        {
+          "name": "Case 1 - Create RoomType",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"roomName\": \"Single\",\r\n  \"basePrice\": 20,\r\n  \"capacity\": 2,\r\n  \"hotelId\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/RoomType/CreateRoomType",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "RoomType",
+                "CreateRoomType"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 2 - Update RoomType",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/RoomType/UpdateRoomType",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "RoomType",
+                "UpdateRoomType"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 3 - Update Hotel ID",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/RoomType/UpdateHotelIdForRoomType",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "RoomType",
+                "UpdateHotelIdForRoomType"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 4 - Delete RoomType",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/RoomType/RemoveRoomType",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "RoomType",
+                "RemoveRoomType"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 5 - Get All RoomTypes",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/RoomType/GetAllRoomTypes",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "RoomType",
+                "GetAllRoomTypes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 6 - Get RoomType By ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/RoomType/GetRoomTypeById",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "RoomType",
+                "GetRoomTypeById"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 7 - Filter By Capacity",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/RoomType/GetRoomTypesByCapacity",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "RoomType",
+                "GetRoomTypesByCapacity"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 8 - Sort By Price",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/RoomType/GetRoomTypesSortedByPrice",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "RoomType",
+                "GetRoomTypesSortedByPrice"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Promotion",
+      "item": [
+        {
+          "name": "Case 1 - Create Promotion",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/Promotion/CreatePromotion",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "Promotion",
+                "CreatePromotion"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 2 - Update Promotion",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/Promotion/UpdatePromotion",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "Promotion",
+                "UpdatePromotion"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 3 - Update Hotel ID",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/Promotion/UpdatePromotionHotel",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "Promotion",
+                "UpdatePromotionHotel"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 4 - Delete Promotion",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/Promotion/RemovePromotion",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "Promotion",
+                "RemovePromotion"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 5 - Get All Promotions",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/Promotion/GetAllPromotions",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "Promotion",
+                "GetAllPromotions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 6 - Get Promotion By ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/Promotion/GetPromotionById",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "Promotion",
+                "GetPromotionById"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 7 - Filter By Expiry Date",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/Promotion/GetPromotionsByExpiryDate",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "Promotion",
+                "GetPromotionsByExpiryDate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Case 8 - Sort By Discount",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:57343/api/Promotion/GetPromotionsSortedByDiscount",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "57343",
+              "path": [
+                "api",
+                "Promotion",
+                "GetPromotionsSortedByDiscount"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
