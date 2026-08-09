@@ -124,4 +124,16 @@ public class PromotionController : ControllerBase
 
         return promotion;
     }
+
+
+
+    /////////////////// Case 7: GET Filter Promotions By Discount Percentage ///////////////////
+    public List<Promotion> GetPromotionsByDiscount(double discountPercentage)
+    {
+        List<Promotion> promotions = context.Promotions
+                                            .Where(p => p.DiscountPercentage >= discountPercentage)
+                                            .ToList();
+
+        return promotions;
+    }
 }
