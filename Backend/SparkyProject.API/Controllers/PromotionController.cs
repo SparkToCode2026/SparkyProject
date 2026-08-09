@@ -139,5 +139,13 @@ public class PromotionController : ControllerBase
 
 
 
-    
+    /////////////////// Case 8: GET Find Promotions Sorted By Discount Percentage ///////////////////
+    public List<Promotion> GetPromotionsSortedByDiscount()
+    {
+        List<Promotion> promotions = context.Promotions
+                                            .OrderByDescending(p => p.DiscountPercentage)
+                                            .ToList();
+
+        return promotions;
+    } 
 }
