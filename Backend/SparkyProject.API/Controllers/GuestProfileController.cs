@@ -76,4 +76,23 @@ public class GuestProfileController : ControllerBase
         }
     }
 
+    //Case 4: DELETE GuestProfile
+    [HttpDelete("DeleteGuestProfile")]
+    public IActionResult DeleteGuestProfile(int id)
+    {
+        GuestProfile guestProfile = context.GuestProfiles.FirstOrDefault(gp => gp.GuestProfileId == id);
+        if (guestProfile == null)
+        {
+            return NotFound("Guest profile not found");
+        }
+        else
+        {
+            context.GuestProfiles.Remove(guestProfile);
+            context.SaveChanges();
+
+            return Ok("Guest profile deleted successfully");
+        }
+    }
+
+
 }
