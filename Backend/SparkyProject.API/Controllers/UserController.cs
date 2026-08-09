@@ -137,5 +137,15 @@ public class UserController : ControllerBase
         return Ok(users);
     }
 
+    // Case 8: GET Sort Users by Name
+    [HttpGet("GetUsersSortedByName")]
+    public IActionResult GetUsersSortedByName()
+    {
+        List<User> users = context.Users
+                                   .Include(u => u._GuestProfile)
+                                   .OrderBy(u => u.UserName)
+                                   .ToList();
+        return Ok(users);
+    }
 
 }
