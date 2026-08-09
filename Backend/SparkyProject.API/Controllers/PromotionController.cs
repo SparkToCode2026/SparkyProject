@@ -127,13 +127,17 @@ public class PromotionController : ControllerBase
 
 
 
-    /////////////////// Case 7: GET Filter Promotions By Discount Percentage ///////////////////
-    public List<Promotion> GetPromotionsByDiscount(double discountPercentage)
+    /////////////////// Case 7: GET Filter Promotions By Expiry Date ///////////////////
+    public List<Promotion> GetPromotionsByExpiryDate(DateTime expiryDate)
     {
         List<Promotion> promotions = context.Promotions
-                                            .Where(p => p.DiscountPercentage >= discountPercentage)
+                                            .Where(p => p.ExpiryDate >= expiryDate)
                                             .ToList();
 
         return promotions;
     }
+
+
+
+    
 }
