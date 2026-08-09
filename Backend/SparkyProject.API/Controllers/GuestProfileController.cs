@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
+using SparkyProject.API.Models;
+
 
 namespace SparkyProject.API.Controllers;
 
@@ -25,5 +28,15 @@ public class GuestProfileController : ControllerBase
         context = _context;
     }
 
-    // TODO: implement the 8 cases above
+    //Case 1: POST Create GuestProfile
+    [HttpPost("CreateGuestProfile")]
+    public IActionResult CreateGuestProfile(GuestProfile guestProfile)
+    {
+        context.GuestProfiles.Add(guestProfile);
+        context.SaveChanges();
+
+        return Ok("Guest profile created successfully.");
+    }
+
+
 }
