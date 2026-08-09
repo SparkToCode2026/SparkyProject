@@ -1,8 +1,12 @@
+// Models/Amenity.cs - Ahmed
 namespace SparkyProject.API.Models;
 
-// Owner: Ahmed Almalki
-// TODO: add properties (PK, FKs, navigation properties) per the team ERD.
 public class Amenity
 {
-    public int AmenityId { get; set; }
+    public int Id { get; set; }
+    public int HotelId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+
+    public Hotel? Hotel { get; set; }
 }
