@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
+using SparkyProject.API.Models;
 
 namespace SparkyProject.API.Controllers;
 
@@ -25,5 +27,15 @@ public class UserController : ControllerBase
         context = _context;
     }
 
-    // TODO: implement the 8 cases above
+    // Case 1: POST Create
+    [HttpPost("CreateUser")]
+    public IActionResult CreateUser([FromBody] User user)
+    {
+        if (user == null) return BadRequest();
+        context.Users.Add(user);
+        context.SaveChanges();
+
+        return Ok("User created successfully.");
+    }
+
 }
