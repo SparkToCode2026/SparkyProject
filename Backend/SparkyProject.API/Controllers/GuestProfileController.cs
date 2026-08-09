@@ -132,6 +132,17 @@ public class GuestProfileController : ControllerBase
         return Ok(guestProfiles);
     }
 
+    //Case 8: GET Sort GuestProfiles by DateOfBirth
+    [HttpGet("GetGuestProfilesByDateOfBirth")]
+    public IActionResult GetGuestProfilesByDateOfBirth()
+    {
+        List<GuestProfile> guestProfiles = context.GuestProfiles
+                                                  .Include(gp => gp._user)
+                                                  .OrderBy(gp => gp.DateOfBirth)
+                                                  .ToList();
+        return Ok(guestProfiles);
+    }
+
 
 
 
