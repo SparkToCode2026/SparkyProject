@@ -125,5 +125,17 @@ public class UserController : ControllerBase
         }
     }
 
+    // Case 7: GET Filter Users by Role
+    [HttpGet("GetUsersByRole")]
+    public IActionResult GetUsersByRole(string role)
+    {
+        List<User> users = context.Users
+                                   .Include(u => u._GuestProfile)
+                                   .Where(u => u.Role == role)
+                                   .ToList();
+
+        return Ok(users);
+    }
+
 
 }
