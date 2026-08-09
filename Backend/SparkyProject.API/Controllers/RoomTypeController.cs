@@ -66,7 +66,7 @@ public class RoomTypeController : ControllerBase
 
     /////////////////// Case 3: PUT/PATCH Update Hotel ID for Room Type ///////////////////
     [HttpPatch("UpdateHotelIdForRoomType")]
-    public IActionResult UpdateHotelIdForRoomType(int id, int hotelID, int newHotelID)
+    public IActionResult UpdateHotelIdForRoomType(int id, int newHotelID)
     {
         RoomType roomType = context.RoomTypes.FirstOrDefault(rt => rt.RoomTypeId == id);
 
@@ -75,7 +75,7 @@ public class RoomTypeController : ControllerBase
             return NotFound("Room type not found");
         }
 
-        Hotel hotel = context.Hotels.FirstOrDefault(h => h.HotelId == hotelID);
+        Hotel hotel = context.Hotels.FirstOrDefault(h => h.HotelId == newHotelID);
 
         if (hotel == null)
         {

@@ -65,7 +65,7 @@ public class PromotionController : ControllerBase
 
     /////////////////// Case 3: PUT/PATCH Update Hotel ID for Promotion ///////////////////
     [HttpPatch("UpdatePromotionHotel")]
-    public IActionResult UpdatePromotionHotel(int id, int hotelId, int newHotelId)
+    public IActionResult UpdatePromotionHotel(int id, int newHotelId)
     {
         Promotion promotion = context.Promotions.FirstOrDefault(p => p.PromotionId == id);
 
@@ -74,7 +74,7 @@ public class PromotionController : ControllerBase
             return NotFound("Promotion not found");
         }
 
-        Hotel hotel = context.Hotels.FirstOrDefault(h => h.HotelId == hotelId);
+        Hotel hotel = context.Hotels.FirstOrDefault(h => h.HotelId == newHotelId);
 
         if (hotel == null)
         {
