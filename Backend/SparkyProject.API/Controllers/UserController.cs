@@ -79,5 +79,25 @@ public class UserController : ControllerBase
         }
     }
 
+    // Case 4: DELETE User (consider soft-delete)
+    [HttpDelete("DeleteUser")]
+    public IActionResult DeleteUser(int id)
+    {
+        User user = context.Users.FirstOrDefault(u => u.UserId == id);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+        else
+        {
+            context.Users.Remove(user);
+            context.SaveChanges();
+            return Ok("User deleted successfully");
+        }
+
+    }
+
+
+
 
 }
