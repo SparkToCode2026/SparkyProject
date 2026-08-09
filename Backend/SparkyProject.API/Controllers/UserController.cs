@@ -108,4 +108,22 @@ public class UserController : ControllerBase
         return Ok(users);
     }
 
+    // Case 6: GET Find User by ID
+    [HttpGet("GetUserById")]
+    public IActionResult GetUserById(int id)
+    {
+        User user = context.Users
+                           .Include(u => u._GuestProfile)
+                           .FirstOrDefault(u => u.UserId == id);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+        else
+        {
+            return Ok(user);
+        }
+    }
+
+
 }
