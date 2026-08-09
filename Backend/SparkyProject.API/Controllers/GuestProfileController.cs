@@ -58,5 +58,22 @@ public class GuestProfileController : ControllerBase
         }
     }
 
+    //Case 3: PUT/PATCH Update GuestProfile via related FK (UserId)
+    [HttpPatch("UpdateAddressForProfile")]
+    public IActionResult UpdateAddressForProfile(int id, string newAddress)
+    {
+        GuestProfile guestProfile = context.GuestProfiles.FirstOrDefault(gp => gp.GuestProfileId == id);
+        if (guestProfile == null)
+        {
+            return NotFound("Guest profile not found");
+        }
+        else
+        {
+            guestProfile.GuestAddress = newAddress;
+            context.SaveChanges();
+
+            return Ok("Guest profile address updated successfully to " + newAddress);
+        }
+    }
 
 }
