@@ -97,7 +97,15 @@ public class UserController : ControllerBase
 
     }
 
+    // Case 5: GET (list) Include() a related navigation property
+    [HttpGet("GetAllUsers")]
+    public IActionResult GetAllUsers()
+    {
+        List<User> users = context.Users
+                                  .Include(u => u._GuestProfile)
+                                  .ToList();
 
-
+        return Ok(users);
+    }
 
 }
