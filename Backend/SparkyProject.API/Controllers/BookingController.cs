@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
 using SparkyProject.API.Models;
+using SparkyProject.API.Services;
 
 namespace SparkyProject.API.Controllers;
 
@@ -17,14 +19,17 @@ namespace SparkyProject.API.Controllers;
 // 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class BookingController : ControllerBase
 {
     private readonly AppDbContext context;
+    private readonly IEmailService emailService;
 
-    public BookingController(AppDbContext _context)
+    public BookingController(AppDbContext _context, IEmailService _emailService)
     {
         context = _context;
+        emailService = _emailService;
     }
 
     // 1. POST - create
@@ -33,7 +38,32 @@ public class BookingController : ControllerBase
     {
         context.Bookings.Add(booking);
         await context.SaveChangesAsync();
+
+        await SendConfirmationEmailAsync(booking);
         return CreatedAtAction(nameof(GetBooking), new { id = booking.BookingId }, booking);
+    }
+
+    // Booking-confirmation email with the booking summary (domain trigger).
+    private async Task SendConfirmationEmailAsync(Booking booking)
+    {
+        try
+        {
+            var user = await context.Users.FindAsync(booking.UserId);
+            if (user == null) return;
+
+            var body = $"<h3>Booking Confirmation</h3>" +
+                       $"Booking ID: {booking.BookingId}<br/>" +
+                       $"Room ID: {booking.RoomId}<br/>" +
+                       $"Check-in: {booking.CheckInDate:yyyy-MM-dd}<br/>" +
+                       $"Check-out: {booking.CheckOutDate:yyyy-MM-dd}<br/>" +
+                       $"Status: {booking.Status}";
+
+            await emailService.SendEmailAsync(user.UserEmail, "Booking Confirmation", body);
+        }
+        catch
+        {
+            // Email failure should never block the booking itself.
+        }
     }
 
     // 2. PUT - full update
@@ -80,6 +110,7 @@ public class BookingController : ControllerBase
 
     // 5. GET (list) - includes related entities
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookings()
     {
         return await context.Bookings
@@ -91,6 +122,7 @@ public class BookingController : ControllerBase
 
     // 6. GET (find) - by Id
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<Booking>> GetBooking(int id)
     {
         var booking = await context.Bookings
@@ -105,6 +137,7 @@ public class BookingController : ControllerBase
 
     // 7. GET (filter) - by status
     [HttpGet("by-status/{status}")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Booking>>> GetByStatus(string status)
     {
         return await context.Bookings
@@ -114,6 +147,7 @@ public class BookingController : ControllerBase
 
     // 8. GET (sort) - by check-in date
     [HttpGet("sorted-by-checkin")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Booking>>> GetSortedByCheckIn()
     {
         return await context.Bookings
