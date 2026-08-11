@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
@@ -18,6 +19,7 @@ namespace SparkyProject.API.Controllers;
 // 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class GuestProfileController : ControllerBase
 {
@@ -96,6 +98,7 @@ public class GuestProfileController : ControllerBase
 
     //Case 5: GET List Guest Profiles with User Information
     [HttpGet("GetAllGuestProfiles")]
+    [AllowAnonymous]
     public IActionResult GetAllGuestProfiles()
     {
         List<GuestProfile> guestProfiles = context.GuestProfiles
@@ -106,6 +109,7 @@ public class GuestProfileController : ControllerBase
 
     //Case 6: GET GuestProfile By Id
     [HttpGet("GetGuestProfileById")]
+    [AllowAnonymous]
     public IActionResult GetGuestProfileById(int id)
     {
         GuestProfile guestProfile = context.GuestProfiles
@@ -123,6 +127,7 @@ public class GuestProfileController : ControllerBase
 
     //Case 7: GET Filter GuestProfiles by Address
     [HttpGet("GetGuestProfilesByAddress")]
+    [AllowAnonymous]
     public IActionResult GetGuestProfilesByAddress(string address)
     {
         List<GuestProfile> guestProfiles = context.GuestProfiles
@@ -134,6 +139,7 @@ public class GuestProfileController : ControllerBase
 
     //Case 8: GET Sort GuestProfiles by DateOfBirth
     [HttpGet("GetGuestProfilesByDateOfBirth")]
+    [AllowAnonymous]
     public IActionResult GetGuestProfilesByDateOfBirth()
     {
         List<GuestProfile> guestProfiles = context.GuestProfiles
