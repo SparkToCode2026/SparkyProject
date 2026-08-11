@@ -9,7 +9,6 @@ namespace SparkyProject.API.Models;
 public class RoomType
 {
     [Key]
-    [JsonIgnore]
     public int RoomTypeId { get; set; }
 
     [Required]
