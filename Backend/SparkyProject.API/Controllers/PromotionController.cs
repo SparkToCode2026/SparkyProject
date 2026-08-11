@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
@@ -17,6 +18,7 @@ namespace SparkyProject.API.Controllers;
 // 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class PromotionController : ControllerBase
 {
@@ -110,6 +112,7 @@ public class PromotionController : ControllerBase
 
     /////////////////// Case 5: GET List Promotions with Hotel Information ///////////////////
     [HttpGet("GetAllPromotions")]
+    [AllowAnonymous]
     public IActionResult GetAllPromotions()
     {
         List<Promotion> promotions = context.Promotions
@@ -123,6 +126,7 @@ public class PromotionController : ControllerBase
 
     /////////////////// Case 6: GET Find Promotion By Id ///////////////////
     [HttpGet("GetPromotionById")]
+    [AllowAnonymous]
     public IActionResult GetPromotionById(int id)
     {
         Promotion promotion = context.Promotions.FirstOrDefault(p => p.PromotionId == id);
@@ -139,6 +143,7 @@ public class PromotionController : ControllerBase
 
     /////////////////// Case 7: GET Filter Promotions By Expiry Date ///////////////////
     [HttpGet("GetPromotionsByExpiryDate")]
+    [AllowAnonymous]
     public IActionResult GetPromotionsByExpiryDate(DateTime expiryDate)
     {
         List<Promotion> promotions = context.Promotions
@@ -152,6 +157,7 @@ public class PromotionController : ControllerBase
 
     /////////////////// Case 8: GET Find Promotions Sorted By Discount Percentage ///////////////////
     [HttpGet("GetPromotionsSortedByDiscount")]
+    [AllowAnonymous]
     public IActionResult GetPromotionsSortedByDiscount()
     {
         List<Promotion> promotions = context.Promotions
