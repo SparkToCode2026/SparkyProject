@@ -1,21 +1,24 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace SparkyProject.API.Models;
 
 // Owner: Aisha Mubarak ALHashmi
-// TODO: add properties (PK, FKs, navigation properties) per the team ERD.
 public class Staff
 {
+    [Key]
     public int StaffId { get; set; }
 
-[ForeignKey("_user")]
-    public int UserId { get; set; }
-    public User _user { get; set; } = null!;
+    public string FullName { get; set; } = string.Empty;
 
-    [ForeignKey("_hotel")]
-    public int HotelId { get; set; }
-    public Hotel _hotel { get; set; } = null!;
+    public string? Position { get; set; }
 
-    public string Position { get; set; } = string.Empty;
-    public DateTime HireDate { get; set; }
+    public string? Email { get; set; }
+
+    public string? Phone { get; set; }
+
+    public DateTime HireDate { get; set; } = DateTime.Now;
+
+    public int? UserId { get; set; }
+
+    public User? User { get; set; }
 }
