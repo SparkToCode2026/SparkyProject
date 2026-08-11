@@ -1,21 +1,14 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SparkyProject.API.Data;
 using Microsoft.EntityFrameworkCore;
+using SparkyProject.API.Data;
 using SparkyProject.API.Models;
+
 namespace SparkyProject.API.Controllers;
 
 // Owner: Aisha Mubarak ALHashmi
-// Required cases (min. 8) — see capstone brief p.11-12:
-// 1. POST   Create
-// 2. PUT/PATCH  Update
-// 3. PUT/PATCH  Second distinct update (status change / update via related FK)
-// 4. DELETE Delete (consider soft-delete)
-// 5. GET (list)   Include() a related navigation property
-// 6. GET (find)   By Id
-// 7. GET (filter) LINQ Where() on a meaningful field
-// 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
-
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class StaffController : ControllerBase
 {
@@ -26,33 +19,35 @@ public class StaffController : ControllerBase
         context = _context;
     }
 
-    // TODO: implement the 8 cases above
-    // 1. POST: api/Staff
+    // 1. POST - create
     [HttpPost]
     public async Task<ActionResult<Staff>> CreateStaff(Staff staff)
     {
         context.Staff.Add(staff);
         await context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetStaffById), new { id = staff.StaffId }, staff);
+        return CreatedAtAction(nameof(GetStaff), new { id = staff.StaffId }, staff);
     }
 
-    // 2. PUT: api/Staff/5
+    // 2. PUT - full update
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateStaff(int id, Staff updatedStaff)
+    public async Task<IActionResult> UpdateStaff(int id, Staff updated)
     {
         var staff = await context.Staff.FindAsync(id);
         if (staff == null) return NotFound();
 
-        staff.Position = updatedStaff.Position;
-        staff.HireDate = updatedStaff.HireDate;
+        staff.FullName = updated.FullName;
+        staff.Position = updated.Position;
+        staff.Email = updated.Email;
+        staff.Phone = updated.Phone;
+        staff.UserId = updated.UserId;
 
         await context.SaveChangesAsync();
         return NoContent();
     }
 
-    // 3. PUT: api/Staff/5/position
-    [HttpPut("{id}/position")]
-    public async Task<IActionResult> UpdateStaffPosition(int id, [FromBody] string newPosition)
+    // 3. PATCH - second distinct update (position change)
+    [HttpPatch("{id}/position")]
+    public async Task<IActionResult> UpdatePosition(int id, string newPosition)
     {
         var staff = await context.Staff.FindAsync(id);
         if (staff == null) return NotFound();
@@ -62,7 +57,7 @@ public class StaffController : ControllerBase
         return NoContent();
     }
 
-    // 4. DELETE: api/Staff/5
+    // 4. DELETE
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteStaff(int id)
     {
@@ -74,42 +69,44 @@ public class StaffController : ControllerBase
         return NoContent();
     }
 
-    // 5. GET: api/Staff (with Include for Hotel navigation property)
+    // 5. GET (list) - includes related User
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Staff>>> GetAllStaff()
     {
-        return await context.Staff.Include(s => s._hotel).ToListAsync();
+        return await context.Staff.Include(s => s.User).ToListAsync();
     }
 
-    // 6. GET: api/Staff/5
+    // 6. GET (find) - by Id
     [HttpGet("{id}")]
-    public async Task<ActionResult<Staff>> GetStaffById(int id)
+    [AllowAnonymous]
+    public async Task<ActionResult<Staff>> GetStaff(int id)
     {
-        var staff = await context.Staff.Include(s => s._hotel)
+        var staff = await context.Staff
+            .Include(s => s.User)
             .FirstOrDefaultAsync(s => s.StaffId == id);
 
         if (staff == null) return NotFound();
         return staff;
     }
 
-    // 7. GET: api/Staff/filter?position=Manager
-    [HttpGet("filter")]
-    public async Task<ActionResult<IEnumerable<Staff>>> FilterStaffByPosition(string position)
+    // 7. GET (filter) - by position
+    [HttpGet("by-position/{position}")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<Staff>>> GetByPosition(string position)
     {
         return await context.Staff
             .Where(s => s.Position == position)
             .ToListAsync();
     }
 
-    // 8. GET: api/Staff/summary (aggregate: count by hotel)
-    [HttpGet("summary")]
-    public async Task<ActionResult> GetStaffSummary()
+    // 8. GET (sort/aggregate) - sorted by hire date
+    [HttpGet("sorted-by-hire-date")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<Staff>>> GetSortedByHireDate()
     {
-        var summary = await context.Staff
-            .GroupBy(s => s.HotelId)
-            .Select(g => new { HotelId = g.Key, StaffCount = g.Count() })
+        return await context.Staff
+            .OrderByDescending(s => s.HireDate)
             .ToListAsync();
-
-        return Ok(summary);
     }
 }
