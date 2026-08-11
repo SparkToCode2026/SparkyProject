@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
@@ -17,6 +18,7 @@ namespace SparkyProject.API.Controllers;
 // 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
@@ -99,6 +101,7 @@ public class UserController : ControllerBase
 
     // Case 5: GET (list) Include() a related navigation property
     [HttpGet("GetAllUsers")]
+    [AllowAnonymous]
     public IActionResult GetAllUsers()
     {
         List<User> users = context.Users
@@ -110,6 +113,7 @@ public class UserController : ControllerBase
 
     // Case 6: GET Find User by ID
     [HttpGet("GetUserById")]
+    [AllowAnonymous]
     public IActionResult GetUserById(int id)
     {
         User user = context.Users
@@ -127,6 +131,7 @@ public class UserController : ControllerBase
 
     // Case 7: GET Filter Users by Role
     [HttpGet("GetUsersByRole")]
+    [AllowAnonymous]
     public IActionResult GetUsersByRole(string role)
     {
         List<User> users = context.Users
@@ -136,5 +141,19 @@ public class UserController : ControllerBase
 
         if (users == null || users.Count == 0) return NotFound("No users found for role: " + role);
         return Ok(users);
+    }
+
+    // Case 8: GET Sort and Aggregate - count users by role
+    [HttpGet("GetUserCountByRole")]
+    [AllowAnonymous]
+    public IActionResult GetUserCountByRole()
+    {
+        var counts = context.Users
+                            .GroupBy(u => u.Role)
+                            .OrderByDescending(g => g.Count())
+                            .Select(g => new { Role = g.Key, Count = g.Count() })
+                            .ToList();
+
+        return Ok(counts);
     }
 }
