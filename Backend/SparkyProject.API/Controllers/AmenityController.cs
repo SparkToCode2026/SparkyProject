@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
@@ -17,6 +18,7 @@ namespace SparkyProject.API.Controllers;
 // 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class AmenityController : ControllerBase
 {
@@ -77,6 +79,7 @@ public class AmenityController : ControllerBase
 
     // 5. GET (list) - includes related Hotel
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Amenity>>> GetAllAmenities()
     {
         return await context.Amenities.Include(a => a.Hotel).ToListAsync();
@@ -84,6 +87,7 @@ public class AmenityController : ControllerBase
 
     // 6. GET (find) - by Id
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<Amenity>> GetAmenity(int id)
     {
         var amenity = await context.Amenities
@@ -96,6 +100,7 @@ public class AmenityController : ControllerBase
 
     // 7. GET (filter) - by hotel
     [HttpGet("by-hotel/{hotelId}")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Amenity>>> GetByHotel(int hotelId)
     {
         return await context.Amenities
@@ -105,6 +110,7 @@ public class AmenityController : ControllerBase
 
     // 8. GET (sort/aggregate) - sorted by price
     [HttpGet("sorted-by-price")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Amenity>>> GetSortedByPrice()
     {
         return await context.Amenities
@@ -113,6 +119,7 @@ public class AmenityController : ControllerBase
     }
 
     [HttpGet("average-price")]
+    [AllowAnonymous]
     public async Task<ActionResult<decimal>> GetAveragePrice()
     {
         if (!await context.Amenities.AnyAsync()) return 0;
