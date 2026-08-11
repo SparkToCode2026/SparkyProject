@@ -11,7 +11,6 @@ namespace SparkyProject.API.Models;
 public class Promotion
 {
     [Key]
-    [JsonIgnore]
     public int PromotionId { get; set; }
 
     [Required]
