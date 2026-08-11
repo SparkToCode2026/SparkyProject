@@ -1,19 +1,20 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace SparkyProject.API.Models;
 
 // Owner: Ruqaya
-// TODO: add properties (PK, FKs, navigation properties) per the team ERD.
 public class Booking
 {
-    [Key]
     public int BookingId { get; set; }
 
+    public int UserId { get; set; }
+    public int RoomId { get; set; }
+    public int? PromotionId { get; set; }
 
+    public DateTime CheckInDate { get; set; }
+    public DateTime CheckOutDate { get; set; }
+    public string Status { get; set; } = "Pending";
 
-    // Foreign key to Promotion 1 : N relationship
-    [ForeignKey("_Promotions")]
-    public int PromotionId { get; set; }
-    public Promotion _Promotions { get; set; }
+    public User? User { get; set; }
+    public Room? Room { get; set; }
+    public Promotion? Promotion { get; set; }
+    public List<Payment> Payments { get; set; } = new();
 }
