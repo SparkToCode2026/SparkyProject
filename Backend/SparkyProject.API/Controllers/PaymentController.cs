@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
@@ -17,6 +18,7 @@ namespace SparkyProject.API.Controllers;
 // 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class PaymentController : ControllerBase
 {
@@ -78,6 +80,7 @@ public class PaymentController : ControllerBase
 
     // 5. GET (list) - includes related Booking
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Payment>>> GetAllPayments()
     {
         return await context.Payments
@@ -87,6 +90,7 @@ public class PaymentController : ControllerBase
 
     // 6. GET (find) - by Id
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<Payment>> GetPayment(int id)
     {
         var payment = await context.Payments
@@ -99,6 +103,7 @@ public class PaymentController : ControllerBase
 
     // 7. GET (filter) - by method
     [HttpGet("by-method/{method}")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Payment>>> GetByMethod(string method)
     {
         return await context.Payments
@@ -108,6 +113,7 @@ public class PaymentController : ControllerBase
 
     // 8. GET (sort) - by amount
     [HttpGet("sorted-by-amount")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Payment>>> GetSortedByAmount()
     {
         return await context.Payments
