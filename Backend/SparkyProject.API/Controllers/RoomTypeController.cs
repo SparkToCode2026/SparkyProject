@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
@@ -17,6 +18,7 @@ namespace SparkyProject.API.Controllers;
 // 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class RoomTypeController : ControllerBase
 {
@@ -112,6 +114,7 @@ public class RoomTypeController : ControllerBase
 
     /////////////////// Case 5: GET List Room Types with Hotel Information ///////////////////
     [HttpGet("GetAllRoomTypes")]
+    [AllowAnonymous]
     public IActionResult GetAllRoomTypes()
     {
         List<RoomType> roomTypes = context.RoomTypes
@@ -124,6 +127,7 @@ public class RoomTypeController : ControllerBase
 
     /////////////////// Case 6: GET Find Room Type by ID ///////////////////
     [HttpGet("GetRoomTypeById")]
+    [AllowAnonymous]
     public IActionResult GetRoomTypeById(int id)
     {
         RoomType roomType = context.RoomTypes.FirstOrDefault(rt => rt.RoomTypeId == id);
@@ -140,6 +144,7 @@ public class RoomTypeController : ControllerBase
 
     /////////////////// Case 7: GET Find Room Types by Capacity ///////////////////
     [HttpGet("GetRoomTypesByCapacity")]
+    [AllowAnonymous]
     public IActionResult GetRoomTypesByCapacity(int minCapacity)
     {
         List<RoomType> roomTypes = context.RoomTypes.Where(rt => rt.Capacity >= minCapacity)
@@ -152,6 +157,7 @@ public class RoomTypeController : ControllerBase
 
     /////////////////// Case 8: GET Find Room Types sorted by Price ///////////////////
     [HttpGet("GetRoomTypesSortedByPrice")]
+    [AllowAnonymous]
     public IActionResult GetRoomTypesSortedByPrice()
     {
         List<RoomType> roomTypes = context.RoomTypes.OrderBy(rt => rt.BasePrice)
