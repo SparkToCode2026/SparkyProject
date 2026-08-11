@@ -1,69 +1,91 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SparkyProject.API.Data;
 using SparkyProject.API.Models;
+using SparkyProject.API.Services;
 
 namespace SparkyProject.API.Controllers;
 
 // Owner: Aisha Mubarak ALHashmi
-// Required cases (min. 8) — see capstone brief p.11-12:
-// 1. POST   Create
-// 2. PUT/PATCH  Update
-// 3. PUT/PATCH  Second distinct update (status change / update via related FK)
-// 4. DELETE Delete (consider soft-delete)
-// 5. GET (list)   Include() a related navigation property
-// 6. GET (find)   By Id
-// 7. GET (filter) LINQ Where() on a meaningful field
-// 8. GET (sort/aggregate) OrderBy / Count / Sum / Average / GroupBy
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class InvoiceController : ControllerBase
 {
     private readonly AppDbContext context;
+    private readonly IEmailService emailService;
 
-    public InvoiceController(AppDbContext _context)
+    public InvoiceController(AppDbContext _context, IEmailService _emailService)
     {
         context = _context;
+        emailService = _emailService;
     }
 
-    // TODO: implement the 8 cases above
-
-    // 1. POST: api/Invoice
+    // 1. POST - create
     [HttpPost]
     public async Task<ActionResult<Invoice>> CreateInvoice(Invoice invoice)
     {
         context.Invoices.Add(invoice);
         await context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetInvoiceById), new { id = invoice.InvoiceId }, invoice);
+
+        await SendInvoiceEmailAsync(invoice);
+        return CreatedAtAction(nameof(GetInvoice), new { id = invoice.InvoiceId }, invoice);
     }
 
-    // 2. PUT: api/Invoice/5
+    // Invoice email after checkout (domain trigger).
+    private async Task SendInvoiceEmailAsync(Invoice invoice)
+    {
+        try
+        {
+            var booking = await context.Bookings
+                .Include(b => b.User)
+                .FirstOrDefaultAsync(b => b.BookingId == invoice.BookingId);
+            if (booking?.User == null) return;
+
+            var body = $"<h3>Your Invoice</h3>" +
+                       $"Invoice ID: {invoice.InvoiceId}<br/>" +
+                       $"Booking ID: {invoice.BookingId}<br/>" +
+                       $"Total: {invoice.TotalAmount}<br/>" +
+                       $"Status: {invoice.Status}";
+
+            await emailService.SendEmailAsync(booking.User.UserEmail, "Your Invoice", body);
+        }
+        catch
+        {
+            // Email failure should never block the invoice itself.
+        }
+    }
+
+    // 2. PUT - full update
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateInvoice(int id, Invoice updatedInvoice)
+    public async Task<IActionResult> UpdateInvoice(int id, Invoice updated)
     {
         var invoice = await context.Invoices.FindAsync(id);
         if (invoice == null) return NotFound();
 
-        invoice.TotalAmount = updatedInvoice.TotalAmount;
-        invoice.IssuedAt = updatedInvoice.IssuedAt;
+        invoice.BookingId = updated.BookingId;
+        invoice.TotalAmount = updated.TotalAmount;
+        invoice.IssueDate = updated.IssueDate;
+        invoice.Status = updated.Status;
 
         await context.SaveChangesAsync();
         return NoContent();
     }
 
-    // 3. PUT: api/Invoice/5/amount
-    [HttpPut("{id}/amount")]
-    public async Task<IActionResult> UpdateInvoiceAmount(int id, [FromBody] decimal newAmount)
+    // 3. PATCH - second distinct update (payment status)
+    [HttpPatch("{id}/status")]
+    public async Task<IActionResult> UpdateStatus(int id, string newStatus)
     {
         var invoice = await context.Invoices.FindAsync(id);
         if (invoice == null) return NotFound();
 
-        invoice.TotalAmount = newAmount;
+        invoice.Status = newStatus;
         await context.SaveChangesAsync();
         return NoContent();
     }
 
-    // 4. DELETE: api/Invoice/5
+    // 4. DELETE
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteInvoice(int id)
     {
@@ -75,43 +97,52 @@ public class InvoiceController : ControllerBase
         return NoContent();
     }
 
-    // 5. GET: api/Invoice (with Include for Booking navigation property)
+    // 5. GET (list) - includes related Booking
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Invoice>>> GetAllInvoices()
     {
-        return await context.Invoices.Include(i => i._booking).ToListAsync();
+        return await context.Invoices.Include(i => i.Booking).ToListAsync();
     }
 
-    // 6. GET: api/Invoice/5
+    // 6. GET (find) - by Id
     [HttpGet("{id}")]
-    public async Task<ActionResult<Invoice>> GetInvoiceById(int id)
+    [AllowAnonymous]
+    public async Task<ActionResult<Invoice>> GetInvoice(int id)
     {
-        var invoice = await context.Invoices.Include(i => i._booking)
+        var invoice = await context.Invoices
+            .Include(i => i.Booking)
             .FirstOrDefaultAsync(i => i.InvoiceId == id);
 
         if (invoice == null) return NotFound();
         return invoice;
     }
 
-    // 7. GET: api/Invoice/filter?minAmount=100
-    [HttpGet("filter")]
-    public async Task<ActionResult<IEnumerable<Invoice>>> FilterInvoices(decimal minAmount)
+    // 7. GET (filter) - by status
+    [HttpGet("by-status/{status}")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<Invoice>>> GetByStatus(string status)
     {
         return await context.Invoices
-            .Where(i => i.TotalAmount >= minAmount)
+            .Where(i => i.Status == status)
             .ToListAsync();
     }
 
-    // 8. GET: api/Invoice/summary (aggregate: total, average, count)
-    [HttpGet("summary")]
-    public async Task<ActionResult> GetInvoiceSummary()
+    // 8. GET (sort/aggregate) - sorted by issue date
+    [HttpGet("sorted-by-issue-date")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<Invoice>>> GetSortedByIssueDate()
     {
-        var summary = new
-        {
-            TotalInvoices = await context.Invoices.CountAsync(),
-            TotalAmount = await context.Invoices.SumAsync(i => i.TotalAmount),
-            AverageAmount = await context.Invoices.AverageAsync(i => i.TotalAmount)
-        };
-        return Ok(summary);
+        return await context.Invoices
+            .OrderByDescending(i => i.IssueDate)
+            .ToListAsync();
+    }
+
+    [HttpGet("total-revenue")]
+    [AllowAnonymous]
+    public async Task<ActionResult<decimal>> GetTotalRevenue()
+    {
+        if (!await context.Invoices.AnyAsync()) return 0;
+        return await context.Invoices.SumAsync(i => i.TotalAmount);
     }
 }
