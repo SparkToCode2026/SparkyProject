@@ -300,13 +300,13 @@ async function loadHome() {
               <strong>${type.roomName}</strong> <span style="color: var(--ink-soft);">· ${type.capacity} guests</span><br />
               <small style="color: var(--ink-soft);">${rms.length} room${rms.length === 1 ? "" : "s"} ${rms.length ? "(" + rms.map((r) => r.roomNumber).join(", ") + ")" : ""}</small>
             </div>
-            <div style="font-weight:700;">${Number(type.basePrice).toLocaleString("en-US", { style: "currency", currency: "USD" })}<small style="color:var(--ink-soft);font-weight:500;"> /night</small></div>
+            <div style="font-weight:700;">${fmtMoney(type.basePrice)}<small style="color:var(--ink-soft);font-weight:500;"> /night</small></div>
           </div>`).join("")}</div>`
         : `<p style="color: var(--ink-soft);">No rooms listed for this hotel yet.</p>`}
 
       <h6 class="text-uppercase" style="letter-spacing:.1em;font-size:.74rem;font-weight:700;color:var(--ink-soft);">Amenities</h6>
       ${hotelAmenities.length
-        ? `<div class="d-flex flex-wrap gap-2 mb-3">${hotelAmenities.map((a) => `<span class="promo-pill" style="color:var(--forest);border-color:var(--line);background:transparent;">${a.name} · ${Number(a.price).toLocaleString("en-US", { style: "currency", currency: "USD" })}</span>`).join("")}</div>`
+        ? `<div class="d-flex flex-wrap gap-2 mb-3">${hotelAmenities.map((a) => `<span class="promo-pill" style="color:var(--forest);border-color:var(--line);background:transparent;">${a.name} · ${fmtMoney(a.price)}</span>`).join("")}</div>`
         : `<p style="color: var(--ink-soft);">No amenities listed.</p>`}
 
       <h6 class="text-uppercase" style="letter-spacing:.1em;font-size:.74rem;font-weight:700;color:var(--ink-soft);">Reviews</h6>
@@ -564,15 +564,15 @@ async function loadBookings() {
             <small class="booking-id">Booking #${b.bookingId}</small>
             ${inv ? `
               <p class="room-line mb-1 mt-2">
-                Invoice #${inv.invoiceId} — ${Number(inv.totalAmount).toLocaleString("en-US", { style: "currency", currency: "USD" })}
+                Invoice #${inv.invoiceId} — ${fmtMoney(inv.totalAmount)}
                 <span class="status-badge ${inv.status === "Paid" ? "status-confirmed" : "status-pending"}">${inv.status}</span>
-                ${paid > 0 && due === 0 ? `<small class="text-success fw-semibold"> · Paid ${paid.toLocaleString("en-US", { style: "currency", currency: "USD" })}</small>` : ""}
+                ${paid > 0 && due === 0 ? `<small class="text-success fw-semibold"> · Paid ${fmtMoney(paid)}</small>` : ""}
               </p>` : ""}
           </div>
           <div class="d-flex flex-column align-items-end gap-2">
             <span class="status-badge ${statusClass(b.status)}">${b.status}</span>
             ${b.status === "Cancelled" ? "" : `<button type="button" class="btn btn-sm btn-outline-danger cancel-booking-btn" data-booking-id="${b.bookingId}">Cancel booking</button>`}
-            ${canPay ? `<button type="button" class="btn btn-sm btn-ink pay-invoice-btn" data-invoice-id="${inv.invoiceId}" data-booking-id="${b.bookingId}">Pay ${due.toLocaleString("en-US", { style: "currency", currency: "USD" })}</button>` : ""}
+            ${canPay ? `<button type="button" class="btn btn-sm btn-ink pay-invoice-btn" data-invoice-id="${inv.invoiceId}" data-booking-id="${b.bookingId}">Pay ${fmtMoney(due)}</button>` : ""}
             ${canReview ? `<a class="btn btn-sm btn-underline" href="../index.html?review=${h.hotelId}">Leave a review</a>` : ""}
           </div>
         </div>
