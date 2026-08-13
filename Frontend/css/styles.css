@@ -1,31 +1,487 @@
-/* Shared custom styles on top of Bootstrap. */
+/* Sparky Stay — warm, editorial styling on top of Bootstrap. */
 
-.hero {
-  background: linear-gradient(135deg, #1f3a5f 0%, #2e6b9e 100%);
-  padding-bottom: 3rem;
-  padding-top: 3.5rem;
+:root {
+  --paper: #f7f5f0;          /* warm page background */
+  --card: #ffffff;
+  --ink: #22201c;            /* near-black warm text */
+  --ink-soft: #6f6a60;       /* muted text */
+  --line: #e5e0d6;           /* hairline borders */
+  --forest: #1f4d3a;         /* primary deep green */
+  --forest-dark: #173a2b;
+  --amber: #d99a2b;          /* small warm accent */
+  --radius: 14px;
+
+  --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-.auth-card {
+body {
+  font-family: var(--font);
+  background: var(--paper);
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Nav ---------- */
+.site-nav {
+  background: transparent;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.brand {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.brand .dot { color: var(--amber); }
+
+.site-nav .nav-link {
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+}
+.site-nav .nav-link:hover { background: rgba(31, 77, 58, 0.08); color: var(--ink); }
+
+.nav-ghost {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+.nav-ghost:hover { border-color: var(--forest); color: var(--forest); }
+
+.nav-stay-name { font-weight: 600; font-size: 0.9rem; color: var(--ink); }
+
+#navLoggedOut,
+#navLoggedIn {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-left: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding-top: 4rem;
+  padding-bottom: 5rem;
+}
+
+.hero-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--amber);
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  max-width: 15ch;
+  color: var(--ink);
+}
+
+.hero p.lead {
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  max-width: 46ch;
+  margin-top: 1.25rem;
+}
+
+.hero-search {
+  margin-top: 2.25rem;
+  max-width: 460px;
+}
+
+.hero-search input {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.85rem 1.4rem;
+  font-size: 1rem;
+  background: var(--card);
+  box-shadow: 0 1px 2px rgba(34, 32, 28, 0.04);
+}
+.hero-search input:focus {
+  border-color: var(--forest);
+  outline: 3px solid rgba(31, 77, 58, 0.12);
+  box-shadow: none;
+}
+
+/* ---------- Section ---------- */
+.section-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.6rem;
+  margin-bottom: 1.75rem;
+}
+
+/* ---------- Hotel cards ---------- */
+.hotel-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+  height: 100%;
+}
+.hotel-card:hover {
+  border-color: var(--forest);
+  transform: translateY(-4px);
+}
+
+.hotel-card .city {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.hotel-card .hotel-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0.35rem 0 0.4rem;
+  color: var(--ink);
+}
+
+.hotel-card .address { color: var(--ink-soft); font-size: 0.9rem; }
+.hotel-card .phone { color: var(--ink-soft); font-size: 0.85rem; }
+
+.btn-underline {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid var(--forest);
+  padding: 0.15rem 0;
+  font-weight: 600;
+  color: var(--forest);
+  font-size: 0.95rem;
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 0.75rem;
+  align-self: flex-start;
+}
+.btn-underline:hover { border-color: var(--amber); color: var(--amber); }
+
+/* ---------- Buttons ---------- */
+.btn-ink {
+  background: var(--forest);
+  color: #fff;
+  font-weight: 600;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-ink:hover { background: var(--forest-dark); color: #fff; }
+
+.btn-ink-lg { padding: 0.95rem 1.75rem; font-size: 1rem; }
+
+/* ---------- Auth cards ---------- */
+.auth-wrap {
   max-width: 420px;
 }
 
-.hotel-card {
-  border: 1px solid #dee2e6;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+.auth-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2.25rem;
 }
 
-.hotel-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+.auth-card h1 {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.25rem;
 }
 
+.auth-card .sub { color: var(--ink-soft); font-size: 0.95rem; }
+
+.form-label { font-weight: 600; font-size: 0.85rem; }
+
+.form-control, .form-select {
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  padding: 0.65rem 0.9rem;
+  font-size: 1rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(31, 77, 58, 0.12);
+}
+
+/* ---------- Bookings ---------- */
 .booking-card {
-  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
 }
 
-.modal {
-  background: rgba(0, 0, 0, 0.45);
+.booking-card .hotel-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+
+.booking-card .room-line { color: var(--ink-soft); margin-bottom: 0.15rem; }
+.booking-card .date-line { color: var(--ink-soft); margin-bottom: 0.4rem; }
+
+.status-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+}
+.status-confirmed { background: #e4efe8; color: #1f5c3d; }
+.status-checkedin { background: #fdeecd; color: #7a5200; }
+.status-cancelled { background: #f0ede8; color: #6b665c; }
+.status-pending   { background: #e9e6df; color: #6f6a60; }
+
+.booking-id { color: #9a948a; font-size: 0.8rem; }
+
+.empty-msg {
+  background: var(--card);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+.empty-msg a { color: var(--forest); font-weight: 600; }
+
+/* ---------- Modal (custom) ---------- */
+.modal { background: rgba(34, 32, 28, 0.5); }
+.modal-content {
+  border: 0;
+  border-radius: var(--radius);
+  padding: 0.5rem 0.25rem;
+}
+.modal-header { border: 0; padding-bottom: 0; }
+.modal-title { font-weight: 700; letter-spacing: -0.02em; }
+.modal-body form .form-label { font-weight: 600; font-size: 0.85rem; }
+
+/* ---------- Alerts ---------- */
+.alert { border: 0; border-radius: 10px; font-size: 0.92rem; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  padding: 3rem 0;
+}
+
+/* ---------- Promotions strip ---------- */
+.promo-strip {
+  background: var(--forest);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 2.5rem;
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+}
+.promo-strip .promo-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #cfe3d6;
+  margin-bottom: 0.15rem;
+}
+.promo-strip .promo-code {
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+}
+.promo-strip .promo-disc {
+  font-size: 0.85rem;
+  color: #e6f0e9;
+  opacity: 0.9;
+}
+.promo-pill {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ---------- Amenities / reviews on cards ---------- */
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.8rem;
+  margin-top: 0.85rem;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+.card-meta .meta-item { display: inline-flex; align-items: center; gap: 0.3rem; }
+.rating-dot {
+  color: var(--amber);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* ---------- Review form / list ---------- */
+.review-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+.review-item {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  background: var(--card);
+}
+.review-item .review-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+.review-item .review-name { font-weight: 700; font-size: 0.92rem; }
+.review-item .review-date { color: #9a948a; font-size: 0.78rem; }
+.review-item .review-comment { color: var(--ink-soft); font-size: 0.92rem; margin: 0; }
+.stars { color: var(--amber); font-size: 0.9rem; letter-spacing: 0.1em; }
+
+/* ---------- Admin dashboard ---------- */
+.admin-shell { display: grid; grid-template-columns: 230px 1fr; gap: 2rem; align-items: start; }
+.admin-nav {
+  position: sticky;
+  top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.admin-nav .admin-link {
+  text-align: left;
+  border: 0;
+  background: none;
+  padding: 0.55rem 0.9rem;
+  border-radius: 10px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin-nav .admin-link:hover { background: rgba(31, 77, 58, 0.07); color: var(--ink); }
+.admin-nav .admin-link.active { background: var(--forest); color: #fff; }
+.admin-nav .admin-link .count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(31, 77, 58, 0.1);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+.admin-nav .admin-link.active .count { background: rgba(255, 255, 255, 0.18); color: #fff; }
+
+.admin-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  min-height: 320px;
+}
+.admin-panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.admin-panel-head h2 { font-weight: 800; letter-spacing: -0.02em; font-size: 1.35rem; margin: 0; }
+.admin-panel-head .sub { color: var(--ink-soft); font-size: 0.85rem; margin-top: 0.15rem; }
+
+.admin-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.admin-table th {
+  text-align: left;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  font-weight: 700;
+  padding: 0.55rem 0.65rem;
+  border-bottom: 1px solid var(--line);
+}
+.admin-table td {
+  padding: 0.65rem;
+  border-bottom: 1px solid #f0ede6;
+  vertical-align: top;
+}
+.admin-table tr:last-child td { border-bottom: 0; }
+.admin-table .row-actions { display: flex; gap: 0.35rem; justify-content: flex-end; }
+.admin-table .action-btn {
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 8px;
+  padding: 0.28rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.admin-table .action-btn:hover { border-color: var(--forest); color: var(--forest); }
+.admin-table .action-btn.danger:hover { border-color: #b3402e; color: #b3402e; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.35rem;
+}
+.stat-card .stat-label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.stat-card .stat-value { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; margin-top: 0.2rem; color: var(--ink); }
+.stat-card .stat-value .unit { font-size: 0.95rem; font-weight: 600; color: var(--ink-soft); }
+.stat-card .stat-note { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.2rem; }
+
+.admin-empty { color: var(--ink-soft); text-align: center; padding: 2.5rem 1rem; }
+.admin-empty a { color: var(--forest); font-weight: 600; }
+
+/* Small polish */
+.text-danger { color: #b3402e !important; }
+a { color: var(--forest); }
+
+@media (max-width: 900px) {
+  .admin-shell { grid-template-columns: 1fr; gap: 1.25rem; }
+  .admin-nav { position: static; flex-direction: row; flex-wrap: wrap; }
+  .admin-table-wrap { overflow-x: auto; }
 }
