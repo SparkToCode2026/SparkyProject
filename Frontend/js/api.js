@@ -69,3 +69,10 @@ function clearAuth() {
   localStorage.removeItem("jwtToken");
   localStorage.removeItem("currentUser");
 }
+
+// Shared currency formatter — Omani Rial.
+function fmtMoney(n) {
+  const value = Number(n);
+  if (!Number.isFinite(value)) return "OMR 0";
+  return `OMR ${value.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`;
+}
