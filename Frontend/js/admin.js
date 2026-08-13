@@ -12,8 +12,7 @@ function adminToast(message, ok = true) {
   bootstrap.Toast.getOrCreateInstance(t, { delay: 2500 }).show();
 }
 
-const fmtMoney = (n) =>
-  Number(n).toLocaleString("en-US", { style: "currency", currency: "USD" });
+// Shared currency formatter (Omani Rial) is defined in api.js as fmtMoney().
 const fmtDate = (iso) => (iso ? new Date(iso).toLocaleDateString() : "");
 const inputDate = (iso) => (iso ? new Date(iso).toISOString().split("T")[0] : "");
 const toIso = (v) => (v ? new Date(v).toISOString() : null);
@@ -132,7 +131,7 @@ const ENTITIES = {
     ],
     fields: [
       { key: "roomName", label: "Room name", type: "text", required: true },
-      { key: "basePrice", label: "Base price (USD)", type: "number", required: true, step: "0.01" },
+      { key: "basePrice", label: "Base price (OMR)", type: "number", required: true, step: "0.01" },
       { key: "capacity", label: "Capacity (guests)", type: "number", required: true },
       { key: "hotelId", label: "Hotel ID", type: "number", required: true },
     ],
@@ -157,7 +156,7 @@ const ENTITIES = {
     ],
     fields: [
       { key: "name", label: "Name", type: "text", required: true },
-      { key: "price", label: "Price (USD)", type: "number", required: true, step: "0.01" },
+      { key: "price", label: "Price (OMR)", type: "number", required: true, step: "0.01" },
       { key: "hotelId", label: "Hotel ID", type: "number", required: true },
     ],
   },
@@ -234,7 +233,7 @@ const ENTITIES = {
     ],
     fields: [
       { key: "bookingId", label: "Booking ID", type: "number", required: true },
-      { key: "amount", label: "Amount (USD)", type: "number", required: true, step: "0.01" },
+      { key: "amount", label: "Amount (OMR)", type: "number", required: true, step: "0.01" },
       { key: "method", label: "Method", type: "select", required: true, options: ["Card", "Cash", "Bank transfer", "Wallet"] },
       { key: "paidAt", label: "Paid at", type: "date", required: true },
     ],
@@ -260,7 +259,7 @@ const ENTITIES = {
     ],
     fields: [
       { key: "bookingId", label: "Booking ID", type: "number", required: true },
-      { key: "totalAmount", label: "Total (USD)", type: "number", required: true, step: "0.01" },
+      { key: "totalAmount", label: "Total (OMR)", type: "number", required: true, step: "0.01" },
       { key: "status", label: "Status", type: "select", required: true, options: ["Unpaid", "Paid", "Cancelled"] },
       { key: "issueDate", label: "Issue date", type: "date", required: true },
     ],
