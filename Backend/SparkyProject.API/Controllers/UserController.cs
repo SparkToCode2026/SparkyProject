@@ -30,6 +30,7 @@ public class UserController : ControllerBase
     }
 
     // Case 1: POST Create
+    [AllowAnonymous]
     [HttpPost("CreateUser")]
     public IActionResult CreateUser(User user)
     {
